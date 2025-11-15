@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VortexLAB Ingeniería - Soluciones inteligentes en consultoría y construcción">
+    <meta name="keywords" content="ingeniería, construcción, consultoría, Bolivia, Sucre">
+    <title>VortexLAB Ingeniería - Innovación en Ingeniería</title>
+    
+    <!-- React and Babel -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="loading">
+            <div style="text-align: center; color: white;">
+                <div style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">VortexLAB</div>
+                <div style="font-size: 1rem; opacity: 0.7;">Cargando...</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, size = 24, className = "" }) => {
+            useEffect(() => {
+                lucide.createIcons();
+            }, []);
+            return React.createElement('i', {
+                'data-lucide': name,
+                className: className,
+                style: { width: size, height: size }
+            });
+        };
+
+        function VortexLabLanding() {
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [expandedNotebook, setExpandedNotebook] = useState(null);
+            
+            // TODO: UPDATE THESE URLs WITH YOUR ACTUAL GITHUB PAGES URLS
+            const notebooks = {
+                projectAnalysis: {
+                    url: "https://luis151075avila.github.io/SondeosElecVer_IA.html",
+                    title: "Análisis de Proyectos",
+                    description: "Dashboard interactivo con métricas de rendimiento, cronogramas y análisis de costos",
+                    icon: "bar-chart-3"
+                },
+                structural: {
+                    url: "https://luis151075avila.github.io/Modelos_matem_erosion_cuencas.html",
+                    title: "Reportes Estructurales",
+                    description: "Modelado 3D, análisis de cargas y simulaciones de comportamiento estructural",
+                    icon: "building-2"
+                },
+                costOptimization: {
+                    url: "https://luis151075avila.github.io/Hidraulica_computac_presas.html",
+                    title: "Optimización de Costos",
+                    description: "Modelos predictivos para estimación y optimización de presupuestos de construcción",
+                    icon: "lightbulb"
+                }
+            };
+
+            const toggleNotebook = (notebookKey) => {
+                if (expandedNotebook === notebookKey) {
+                    setExpandedNotebook(null);
+                } else {
+                    setExpandedNotebook(notebookKey);
+                    setTimeout(() => {
+                        document.getElementById(`notebook-${notebookKey}`)?.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }, 100);
+                }
+            };
+
+            useEffect(() => {
+                lucide.createIcons();
+            }, [expandedNotebook, mobileMenuOpen]);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+                    {/* Navigation */}
+                    <nav className="fixed w-full bg-slate-900/80 backdrop-blur-md z-50 border-b border-blue-500/20">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-16">
+                                <div className="flex items-center space-x-2">
+                                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-lg flex items-center justify-center">
+                                        <span className="text-slate-900 font-bold text-xl">V</span>
+                                    </div>
+                                    <span className="text-white font-bold text-xl">VortexLAB Ingeniería</span>
+                                </div>
+                                
+                                <div className="hidden md:flex space-x-8">
+                                    <a href="#servicios" className="text-gray-300 hover:text-blue-400 transition">Servicios</a>
+                                    <a href="#experiencia" className="text-gray-300 hover:text-blue-400 transition">Experiencia</a>
+                                    <a href="#contacto" className="text-gray-300 hover:text-blue-400 transition">Contacto</a>
+                                </div>
+
+                                <button 
+                                    className="md:hidden text-white"
+                                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                >
+                                    <Icon name={mobileMenuOpen ? "x" : "menu"} size={24} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {mobileMenuOpen && (
+                            <div className="md:hidden bg-slate-800/95 backdrop-blur-lg">
+                                <div className="px-2 pt-2 pb-3 space-y-1">
+                                    <a href="#servicios" className="block px-3 py-2 text-gray-300 hover:text-blue-400">Servicios</a>
+                                    <a href="#experiencia" className="block px-3 py-2 text-gray-300 hover:text-blue-400">Experiencia</a>
+                                    <a href="#contacto" className="block px-3 py-2 text-gray-300 hover:text-blue-400">Contacto</a>
+                                </div>
+                            </div>
+                        )}
+                    </nav>
+
+                    {/* Hero Section */}
+                    <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="text-center">
+                                <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+                                    Innovación en
+                                    <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"> Ingeniería</span>
+                                </h1>
+                                <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                                    Soluciones inteligentes en consultoría y construcción, 
+                                    respaldadas por análisis de datos y tecnología de vanguardia
+                                </p>
+                                
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                                    <button
+                                        onClick={() => document.getElementById('experiencia').scrollIntoView({ behavior: 'smooth' })}
+                                        className="group bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center space-x-2 hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105"
+                                    >
+                                        <Icon name="bar-chart-3" size={24} />
+                                        <span>Nuestra Experiencia</span>
+                                        <Icon name="chevron-right" size={20} className="group-hover:translate-x-1 transition-transform" />
+                                    </button>
+                                    
+                                    <a 
+                                        href="#contacto"
+                                        className="bg-slate-800 text-white px-8 py-4 rounded-lg font-semibold text-lg border-2 border-blue-500/30 hover:border-blue-500 transition-all"
+                                    >
+                                        Contáctanos
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Features Section */}
+                    <section id="servicios" className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-800/30">
+                        <div className="max-w-7xl mx-auto">
+                            <h2 className="text-4xl font-bold text-white text-center mb-16">
+                                Nuestros Servicios
+                            </h2>
+                            
+                            <div className="grid md:grid-cols-3 gap-8">
+                                <FeatureCard
+                                    icon="building-2"
+                                    title="Construcción"
+                                    description="Proyectos de infraestructura con estándares de calidad internacional y metodologías innovadoras"
+                                />
+                                <FeatureCard
+                                    icon="lightbulb"
+                                    title="Consultoría"
+                                    description="Asesoramiento técnico especializado en ingeniería civil, estructural y gestión de proyectos"
+                                />
+                                <FeatureCard
+                                    icon="bar-chart-3"
+                                    title="Análisis de Datos"
+                                    description="Modelado predictivo y visualización interactiva para optimizar decisiones en proyectos"
+                                />
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Interactive Notebooks Section */}
+                    <section id="experiencia" className="py-20 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl mx-auto">
+                            <h2 className="text-4xl font-bold text-white text-center mb-4">
+                                Nuestra Experiencia
+                            </h2>
+                            <p className="text-xl text-gray-300 text-center mb-16 max-w-3xl mx-auto">
+                                Explora nuestros análisis interactivos y reportes técnicos con datos reales de proyectos
+                            </p>
+                            
+                            <div className="space-y-6">
+                                {Object.entries(notebooks).map(([key, notebook]) => (
+                                    <NotebookAccordion
+                                        key={key}
+                                        notebookKey={key}
+                                        notebook={notebook}
+                                        isExpanded={expandedNotebook === key}
+                                        onToggle={() => toggleNotebook(key)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Stats Section */}
+                    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-800/30">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid md:grid-cols-3 gap-8 text-center">
+                                <StatCard number="50+" label="Proyectos Completados" />
+                                <StatCard number="15+" label="Años de Experiencia" />
+                                <StatCard number="100%" label="Satisfacción del Cliente" />
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Contact Section */}
+                    <section id="contacto" className="py-20 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-4xl mx-auto text-center">
+                            <h2 className="text-4xl font-bold text-white mb-6">Contáctanos</h2>
+                            <p className="text-xl text-gray-300 mb-8">
+                                Estamos aquí para ayudarte con tu próximo proyecto de ingeniería
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a href="mail_to:lobo151075@gmail.com" className="text-blue-400 hover:text-blue-300 text-lg">
+                                    info@vortexlab.com
+                                </a>
+                                <span className="text-gray-500 hidden sm:block">|</span>
+                                <a href="tel:+59171160321" className="text-blue-400 hover:text-blue-300 text-lg">
+                                    +591 (123) 456-789
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="bg-slate-900 py-8 px-4 border-t border-blue-500/20">
+                        <div className="max-w-7xl mx-auto text-center text-gray-400">
+                            <p>&copy; 2024 VortexLAB Ingeniería. Todos los derechos reservados.</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        function FeatureCard({ icon, title, description }) {
+            return (
+                <div className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-xl border border-blue-500/20 hover:border-blue-500/50 transition-all hover:transform hover:scale-105">
+                    <div className="text-blue-400 mb-4">
+                        <Icon name={icon} size={40} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-3">{title}</h3>
+                    <p className="text-gray-300">{description}</p>
+                </div>
+            );
+        }
+
+        function NotebookAccordion({ notebookKey, notebook, isExpanded, onToggle }) {
+            return (
+                <div 
+                    id={`notebook-${notebookKey}`}
+                    className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-blue-500/30 overflow-hidden transition-all"
+                >
+                    <div 
+                        onClick={onToggle}
+                        className="p-6 cursor-pointer hover:bg-slate-800/70 transition-colors"
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="text-cyan-400">
+                                    <Icon name={notebook.icon} size={32} />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-white mb-2">{notebook.title}</h3>
+                                    <p className="text-gray-300">{notebook.description}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <a
+                                    href={notebook.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="text-gray-400 hover:text-blue-400 transition p-2 rounded-lg hover:bg-slate-700/50"
+                                    title="Abrir en nueva pestaña"
+                                >
+                                    <Icon name="external-link" size={20} />
+                                </a>
+                                <button className="text-blue-400 hover:text-cyan-400 transition">
+                                    <Icon name={isExpanded ? "chevron-up" : "chevron-down"} size={24} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {isExpanded && (
+                        <div className="border-t border-blue-500/20">
+                            <div className="bg-slate-900/50 p-2">
+                                <iframe
+                                    src={notebook.url}
+                                    className="w-full rounded-lg"
+                                    style={{ height: '600px' }}
+                                    title={notebook.title}
+                                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                                />
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function StatCard({ number, label }) {
+            return (
+                <div className="bg-slate-800/30 backdrop-blur-sm p-8 rounded-xl border border-blue-500/20">
+                    <div className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                        {number}
+                    </div>
+                    <div className="text-gray-300 text-lg">{label}</div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<VortexLabLanding />);
+    </script>
+</body>
+</html>
